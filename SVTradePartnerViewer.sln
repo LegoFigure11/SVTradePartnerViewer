@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32819.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SVTradePartnerViewer", "SVTradePartnerViewer.csproj", "{01572C7D-725F-499F-976F-C0CE4C3452FA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{01572C7D-725F-499F-976F-C0CE4C3452FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01572C7D-725F-499F-976F-C0CE4C3452FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01572C7D-725F-499F-976F-C0CE4C3452FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01572C7D-725F-499F-976F-C0CE4C3452FA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {74F8A405-9065-45F2-B2A3-02968CDF215F}
+	EndGlobalSection
+EndGlobal
