@@ -73,7 +73,7 @@ namespace SVTradePartnerViewer
 
         private void ButtonCopy_Click(object sender, EventArgs e)
         {
-            CopyOutputToClipboard();
+            CopyOutputToClipboard(CheckPSWiFi.Checked);
         }
 
         private void CheckAutoCopy_CheckedChanged(object sender, EventArgs e)
@@ -81,13 +81,19 @@ namespace SVTradePartnerViewer
             ButtonCopy.Enabled = !CheckAutoCopy.Checked;
             Settings.Default.AutoCopy = CheckAutoCopy.Checked;
             Settings.Default.Save();
-            CopyOutputToClipboard();
+            if (SwitchConnection.Connected) CopyOutputToClipboard(CheckPSWiFi.Checked);
         }
 
-        private void CopyOutputToClipboard()
+        private void CheckPSWiFi_CheckedChanged(object sender, EventArgs e)
+        {
+            Settings.Default.PSWiFi = CheckPSWiFi.Checked;
+            Settings.Default.Save();
+        }
+
+        private void CopyOutputToClipboard(bool IsPS = false)
         {
             string n = Environment.NewLine;
-            string OutString = $"OT: {OutOT.Text}{n}ID: {OutTID.Text}{n}Version: {OutVersion.Text}{n}NID: {OutNID.Text}";
+            string OutString = IsPS ? $"{OutOT.Text}\t{OutTID.Text.Split("-")[1]}" : $"OT: {OutOT.Text}{n}ID: {OutTID.Text}{n}Version: {OutVersion.Text}{n}NID: {OutNID.Text}";
             Clipboard.SetText(OutString);
         }
 
@@ -148,7 +154,7 @@ namespace SVTradePartnerViewer
                             OutVersion.Text = $"{(trader.Game <= 51 ? "Scarlet" : "Violet")} ({trader.Game})";
                             OutNID.Text = $"{NID:X16}";
 
-                            if (CheckAutoCopy.Checked) CopyOutputToClipboard();
+                            if (CheckAutoCopy.Checked) CopyOutputToClipboard(CheckPSWiFi.Checked);
 
                             await ClearTradePartnerNID(TradePartnerNIDOffset, CancellationToken.None);
                         }

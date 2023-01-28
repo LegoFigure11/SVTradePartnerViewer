@@ -43,6 +43,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.ButtonStop = new System.Windows.Forms.Button();
             this.CheckAutoCopy = new System.Windows.Forms.CheckBox();
+            this.CheckPSWiFi = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -177,7 +178,7 @@
             // CheckAutoCopy
             // 
             this.CheckAutoCopy.AutoSize = true;
-            this.CheckAutoCopy.Location = new System.Drawing.Point(12, 153);
+            this.CheckAutoCopy.Location = new System.Drawing.Point(12, 128);
             this.CheckAutoCopy.Name = "CheckAutoCopy";
             this.CheckAutoCopy.Size = new System.Drawing.Size(86, 19);
             this.CheckAutoCopy.TabIndex = 4;
@@ -185,11 +186,23 @@
             this.CheckAutoCopy.UseVisualStyleBackColor = true;
             this.CheckAutoCopy.CheckedChanged += new System.EventHandler(this.CheckAutoCopy_CheckedChanged);
             // 
+            // CheckPSWiFi
+            // 
+            this.CheckPSWiFi.AutoSize = true;
+            this.CheckPSWiFi.Location = new System.Drawing.Point(12, 153);
+            this.CheckPSWiFi.Name = "CheckPSWiFi";
+            this.CheckPSWiFi.Size = new System.Drawing.Size(102, 19);
+            this.CheckPSWiFi.TabIndex = 5;
+            this.CheckPSWiFi.Text = "PS! WiFi Mode";
+            this.CheckPSWiFi.UseVisualStyleBackColor = true;
+            this.CheckPSWiFi.CheckedChanged += new System.EventHandler(this.CheckPSWiFi_CheckedChanged);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(357, 187);
+            this.Controls.Add(this.CheckPSWiFi);
             this.Controls.Add(this.CheckAutoCopy);
             this.Controls.Add(this.ButtonStop);
             this.Controls.Add(this.groupBox1);
@@ -221,5 +234,6 @@
         private Button ButtonCopy;
         private Button ButtonStop;
         private CheckBox CheckAutoCopy;
+        private CheckBox CheckPSWiFi;
     }
 }
