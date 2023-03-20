@@ -151,7 +151,7 @@ namespace SVTradePartnerViewer
 
                             OutOT.Text = trader.OT;
                             OutTID.Text = $"({trader.DisplaySID:D4})-{trader.DisplayTID:D6}";
-                            OutVersion.Text = $"{(trader.Game <= 51 ? "Scarlet" : "Violet")} ({trader.Game})";
+                            OutVersion.Text = $"{(trader.Game <= 50 ? "Scarlet" : "Violet")}";
                             OutNID.Text = $"{NID:X16}";
 
                             if (CheckAutoCopy.Checked) CopyOutputToClipboard(CheckPSWiFi.Checked);
