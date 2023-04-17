@@ -93,7 +93,7 @@ namespace SVTradePartnerViewer
         private void CopyOutputToClipboard(bool IsPS = false)
         {
             string n = Environment.NewLine;
-            string OutString = IsPS ? $"{OutOT.Text}\t{OutTID.Text.Split("-")[1]}" : $"OT: {OutOT.Text}{n}ID: {OutTID.Text}{n}Version: {OutVersion.Text}{n}NID: {OutNID.Text}";
+            string OutString = IsPS ? $"{OutOT.Text}\t{OutTID.Text.Split("-")[1]}\t{OutNID.Text}" : $"OT: {OutOT.Text}{n}ID: {OutTID.Text}{n}Version: {OutVersion.Text}{n}NID: {OutNID.Text}";
             Clipboard.SetText(OutString);
         }
 
