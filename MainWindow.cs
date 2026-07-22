@@ -2,6 +2,7 @@ using PKHeX.Core;
 using SVTradePartnerViewer.Properties;
 using SVTradePartnerViewer.Structures;
 using SysBot.Base;
+using System.Diagnostics;
 using System.Net.Sockets;
 using static SVTradePartnerViewer.Structures.Offsets;
 
@@ -9,14 +10,14 @@ namespace SVTradePartnerViewer
 {
     public partial class MainWindow : Form
     {
-        private readonly static SwitchConnectionConfig Config = new() { Protocol = SwitchProtocol.WiFi, IP = Settings.Default.SwitchIP, Port = 6000 };
-        private readonly static SwitchSocketAsync SwitchConnection = new(Config);
+        private static SwitchConnectionConfig Config = new() { Protocol = SwitchProtocol.WiFi, IP = Settings.Default.SwitchIP, Port = 6000 };
+        private static SwitchSocketAsync SwitchConnection = SwitchSocketAsync.CreateInstance(Config);
 
         private static ulong TradePartnerNIDOffset;
 
         private static string OT = string.Empty;
-        private static int DisplayTID;
-        private static int DisplaySID;
+        private static uint DisplayTID;
+        private static uint DisplaySID;
 
         readonly string CachedText = string.Empty;
 
@@ -53,7 +54,6 @@ namespace SVTradePartnerViewer
             if (textBox.Text != "192.168.0.0")
             {
                 Settings.Default.SwitchIP = textBox.Text;
-                Config.IP = textBox.Text;
             }
             Settings.Default.Save();
         }
@@ -92,9 +92,16 @@ namespace SVTradePartnerViewer
 
         private void CopyOutputToClipboard(bool IsPS = false)
         {
-            string n = Environment.NewLine;
-            string OutString = IsPS ? $"{OutOT.Text}\t{OutTID.Text.Split("-")[1]}\t{OutNID.Text}" : $"OT: {OutOT.Text}{n}ID: {OutTID.Text}{n}Version: {OutVersion.Text}{n}NID: {OutNID.Text}";
-            Clipboard.SetText(OutString);
+            try
+            {
+                string n = Environment.NewLine;
+                string OutString = IsPS ? $"{OutOT.Text}\t{OutTID.Text.Split("-")[1]}\t{OutNID.Text}" : $"OT: {OutOT.Text}{n}ID: {OutTID.Text}{n}Version: {OutVersion.Text}{n}NID: {OutNID.Text}";
+                Clipboard.SetText(OutString);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
         }
 
         private async void Connect()
@@ -106,6 +113,13 @@ namespace SVTradePartnerViewer
                 {
                     Text = CachedText + " | Connecting...";
                     var NewText = CachedText;
+                    Config = new()
+                    {
+                        IP = InputSwitchIP.Text,
+                        Protocol = SwitchProtocol.WiFi,
+                        Port = 6000,
+                    };
+                    SwitchConnection = SwitchSocketAsync.CreateInstance(Config);
                     SwitchConnection.Connect();
                     string id = await GetGameID(CancellationToken.None);
                     if (id is ScarletID)
@@ -183,10 +197,9 @@ namespace SVTradePartnerViewer
 
         private static async Task<SAV9SV> IdentifyTrainer(CancellationToken token)
         {
-            // Check title so we can warn if mode is incorrect.
             string title = await SwitchConnection.GetTitleID(token).ConfigureAwait(false);
             if (title is not (ScarletID or VioletID))
-                throw new Exception($"{title} is not a valid SV title. Is your mode correct?");
+                throw new Exception($"{title} is not a valid SV title.");
 
             return await GetFakeTrainerSAV(token).ConfigureAwait(false);
         }
@@ -196,7 +209,7 @@ namespace SVTradePartnerViewer
             var sav = new SAV9SV();
             var info = sav.MyStatus;
             var read = await SwitchConnection.PointerPeek(info.Data.Length, MyStatusPointer, token).ConfigureAwait(false);
-            read.CopyTo(info.Data, 0);
+            read.CopyTo(info.Data);
             return sav;
         }
 
